@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 
+import main.java.domain.Research;
+
 public class Controller {
 
 	private final static int ITERATION_NUMBER = 1000;
@@ -136,12 +138,12 @@ public class Controller {
 		}
 	}
 
-	public ArrayList<Object> getAllResearches(boolean available) {
+	public ArrayList<Research> getAllResearches(boolean available) {
 		// TODO ask the research object to ask the database object the data.
 		return null;
 	}
 
-	public Object getResearch(String id) {
+	public Research getResearch(String id) {
 		// TODO ask research object the specified research with this id
 		return null;
 	}

@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import org.json.simple.JSONObject;
 
 import main.java.controller.Controller;
+import main.java.domain.Research;
 
 @Path("/Research")
 public class ResearchService {
@@ -22,13 +23,13 @@ public class ResearchService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response allResearches(@QueryParam("onlyAvailable") boolean available){
-		ArrayList<Object> researches = controller.getAllResearches(available);
+		ArrayList<Research> researches = controller.getAllResearches(available);
 		
 		if (researches != null && !researches.isEmpty()){
 			JSONObject json = new JSONObject();
-//			for (Research r : researches){
-//				//TODO: map everything to the JSON object
-//			}
+			for (Research r : researches){
+				//TODO: map everything to the JSON object
+			}
 			return Response.status(200).entity(json).build();
 		} else {
 			return Response.status(500).entity("No researches available").build();
