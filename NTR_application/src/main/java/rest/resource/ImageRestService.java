@@ -10,34 +10,32 @@ import javax.imageio.ImageIO;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 
 @Path("/image")
 public class ImageRestService {
 	
 	@GET
 	@Path("/{id}")
-	public String getImage(@PathParam("id") String id) {
-		String imageEncoded = null;
-		imageEncoded = encodeToBase64(id);
-		
-		return imageEncoded;
+	public Response getImage(@PathParam("id") String id) {
+		return encodeToBase64(id);
 	}
 	
-	public String encodeToBase64(String id) {
-		String response = null;
+	public Response encodeToBase64(String id) {
+		String encoded = null;
 		String location = "C:/"+id+".png";
 		try {
 			BufferedImage img = ImageIO.read(new File(location));
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(img, "png", baos);
 			baos.flush();
-			response = Base64.getEncoder().encodeToString(baos.toByteArray());
-			baos.close();			
+			encoded = Base64.getEncoder().encodeToString(baos.toByteArray());
+			baos.close();
+			return Response.status(200).entity(encoded).build();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(500).entity("Something went wrong fetching the image, the file might not exist").build();
 		}
-	
-		return response;
+
 	}
 }
