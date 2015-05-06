@@ -36,6 +36,5 @@ public class ImageRestService {
 			e.printStackTrace();
 			return Response.status(500).entity("Something went wrong fetching the image, the file might not exist").build();
 		}
-
 	}
 }
