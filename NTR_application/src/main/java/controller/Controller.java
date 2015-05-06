@@ -1,11 +1,11 @@
 package main.java.controller;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -20,7 +20,6 @@ public class Controller {
 	 */
 	public boolean authenticate(String username, String password) throws NoSuchAlgorithmException, SQLException {
 		Connection con = null; //TODO: Reference a database connection
-		boolean authenticated = false;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
@@ -135,5 +134,10 @@ public class Controller {
 				// do nothing
 			}
 		}
+	}
+
+	public ArrayList<Object> getAllResearches(boolean available) {
+		// TODO ask the research object to ask the database object the data.
+		return null;
 	}
 }
