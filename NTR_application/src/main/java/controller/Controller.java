@@ -140,4 +140,9 @@ public class Controller {
 		// TODO ask the research object to ask the database object the data.
 		return null;
 	}
+
+	public Object getResearch(String id) {
+		// TODO ask research object the specified research with this id
+		return null;
+	}
 }
