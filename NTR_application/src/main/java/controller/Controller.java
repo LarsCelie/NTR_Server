@@ -24,6 +24,7 @@ public class Controller {
 		Connection con = null; //TODO: Reference a database connection
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		
 		try {
 			boolean userExist = true;
 			// INPUT VALIDATION
@@ -35,7 +36,7 @@ public class Controller {
 				username = "";
 				password = "";
 			}
-
+			
 			ps = con.prepareStatement("SELECT PASSWORD, SALT FROM CREDENTIAL WHERE LOGIN = ?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
@@ -77,7 +78,7 @@ public class Controller {
 	}
 
 	public boolean createUser(String username, String password) throws SQLException, NoSuchAlgorithmException {
-		PreparedStatement ps = null;
+		//PreparedStatement ps = null;
 		try {
 			if (username != null && password != null && username.length() <= 100) {
 				Connection con = null; //TODO: Reference a database connection
@@ -91,18 +92,20 @@ public class Controller {
 			
 				String sDigest = Base64.getEncoder().encodeToString(bDigest);
 				String sSalt = Base64.getEncoder().encodeToString(bSalt);
-
+				
+				/*
 				ps = con.prepareStatement("INSERT INTO CREDENTIAL (LOGIN, PASSWORD, SALT) VALUES (?,?,?)");
 				ps.setString(1, username);
 				ps.setString(2, sDigest);
 				ps.setString(3, sSalt);
 				ps.executeUpdate();
+				*/
 				return true;
 			} else {
 				return false;
 			}
 		} finally {
-			close(ps);
+			//close(ps);
 		}
 	}
 
