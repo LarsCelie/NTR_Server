@@ -4,70 +4,70 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Research {
-    private int ID;
-    private String NAME;
-    private Date BEGIN_DATE;
-    private Date END_DATE;
-    private String STATUS;
-    private ArrayList<Survey> surveys = new ArrayList<>();
+	private int id;
+	private String name;
+	private Date beginDate;
+	private Date endDate;
+	private String status;
+	private ArrayList<Survey> surveys = new ArrayList<>();
 
-    public Research(){
+	public Research() {
 
-    }
+	}
 
-    public int getID() {
-        return ID;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getNAME() {
-        return NAME;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setNAME(String NAME) {
-        this.NAME = NAME;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Date getBEGIN_DATE() {
-        return BEGIN_DATE;
-    }
+	public Date getBeginDate() {
+		return beginDate;
+	}
 
-    public void setBEGIN_DATE(Date BEGIN_DATE) {
-        this.BEGIN_DATE = BEGIN_DATE;
-    }
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
 
-    public Date getEND_DATE() {
-        return END_DATE;
-    }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    public void setEND_DATE(Date END_DATE) {
-        this.END_DATE = END_DATE;
-    }
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
-    public String getSTATUS() {
-        return STATUS;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setSTATUS(String STATUS) {
-        this.STATUS = STATUS;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public ArrayList<Survey> getSurveys() {
-        return surveys;
-    }
+	public ArrayList<Survey> getSurveys() {
+		return surveys;
+	}
 
-    public void setSurveys(ArrayList<Survey> surveys) {
-        this.surveys = surveys;
-    }
+	public void setSurveys(ArrayList<Survey> surveys) {
+		this.surveys = surveys;
+	}
 
-    public void addSurvey(Survey survey) {
-        surveys.add(survey);
-    }
+	public void addSurvey(Survey survey) {
+		surveys.add(survey);
+	}
 
-    public void removeSurvey(Survey survey) {
-        surveys.remove(survey);
-    }
+	public void removeSurvey(Survey survey) {
+		surveys.remove(survey);
+	}
 }

@@ -3,9 +3,11 @@ package main.java.rest.resource;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import main.java.controller.Controller;
@@ -15,7 +17,7 @@ public class UserService {
 	
 	private Controller controller = new Controller();
 	
-	@POST //Post so you can't see the information in the browser easily
+	@POST //Post so you can't see the information in the browser history easily
 	public Response authenticate(@QueryParam("username") String username, @QueryParam("password") String password){
 		boolean authenticated = false;
 		try {
@@ -34,10 +36,12 @@ public class UserService {
 	
 	@POST
 	@Path("/create")
-	public Response createUser(@QueryParam("username") String username, @QueryParam("password") String password){
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createUser(String json){
 		boolean created = false;
 		try {
-			created = controller.createUser(username, password);
+			
+			created = controller.createUser(json, json);
 		} catch (NoSuchAlgorithmException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -9,28 +9,30 @@ public class Attachment {
 
 	}
 
-	public int getID() {
+	public int getId() {
 		return id;
 	}
 
-	public void setID(int ID) {
-		this.id = ID;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getTYPE() {
+	public String getType() {
 		return type;
 	}
 
-	public void setTYPE(String TYPE) {
-		this.type = TYPE;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getLOCATION() {
+	public String getLocation() {
 		return location;
 	}
 
-	public void setLOCATION(String LOCATION) {
-		this.location = LOCATION;
+	public void setLocation(String location) {
+		this.location = location;
 	}
+	
+	
 
 }
