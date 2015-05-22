@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Base64;
 
 import main.java.domain.Research;
+import main.java.domain.Survey;
+import main.java.domain.User;
 
 public class Controller {
 
@@ -20,7 +22,7 @@ public class Controller {
 	 * Hashing in Java
 	 * https://www.owasp.org/index.php/Hashing_Java 
 	 */
-	public boolean authenticate(String username, String password) throws NoSuchAlgorithmException, SQLException {
+	public User authenticate(String username, String password) throws NoSuchAlgorithmException, SQLException {
 		Connection con = null; //TODO: Reference a database connection
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -68,7 +70,11 @@ public class Controller {
 			// Compute the new DIGEST
 			byte[] proposedDigest = getHash(ITERATION_NUMBER, password, baseSalt);
 
-			return Arrays.equals(proposedDigest, baseDigest) && userExist;
+			if (Arrays.equals(proposedDigest, baseDigest) && userExist){
+				return new User(); //TODO: Map database to object
+			} else {
+				return null;
+			}
 		} catch (SQLException ex) {
 			throw new SQLException("Database inconsistant Salt or Digested Password altered");
 		} finally {
@@ -78,7 +84,7 @@ public class Controller {
 	}
 
 	public boolean createUser(String username, String password) throws SQLException, NoSuchAlgorithmException {
-		//PreparedStatement ps = null;
+		PreparedStatement ps = null;
 		try {
 			if (username != null && password != null && username.length() <= 100) {
 				Connection con = null; //TODO: Reference a database connection
@@ -93,19 +99,19 @@ public class Controller {
 				String sDigest = Base64.getEncoder().encodeToString(bDigest);
 				String sSalt = Base64.getEncoder().encodeToString(bSalt);
 				
-				/*
+				
 				ps = con.prepareStatement("INSERT INTO CREDENTIAL (LOGIN, PASSWORD, SALT) VALUES (?,?,?)");
 				ps.setString(1, username);
 				ps.setString(2, sDigest);
 				ps.setString(3, sSalt);
 				ps.executeUpdate();
-				*/
+				
 				return true;
 			} else {
 				return false;
 			}
 		} finally {
-			//close(ps);
+			close(ps);
 		}
 	}
 
@@ -149,6 +155,11 @@ public class Controller {
 
 	public Research getResearch(String id) {
 		// TODO ask research object the specified research with this id
+		return null;
+	}
+
+	public Survey getSurvey(String id) {
+		// TODO ask survey object the specified survey with this id
 		return null;
 	}
 }
