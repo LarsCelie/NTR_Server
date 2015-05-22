@@ -143,6 +143,7 @@ public class Controller {
 
 	public ArrayList<Research> getAllResearches(boolean available) {
 		// TODO ask the research object to ask the database object the data.
+		
 		return null;
 	}
 

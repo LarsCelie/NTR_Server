@@ -10,7 +10,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.json.simple.JSONObject;
+import com.google.gson.Gson;
 
 import main.java.controller.Controller;
 import main.java.domain.Research;
@@ -26,10 +26,7 @@ public class ResearchService {
 		ArrayList<Research> researches = controller.getAllResearches(available);
 		
 		if (researches != null && !researches.isEmpty()){
-			JSONObject json = new JSONObject();
-			for (Research r : researches){
-				//TODO: map everything to the JSON object
-			}
+			String json = new Gson().toJson(researches);
 			return Response.status(200).entity(json).build();
 		} else {
 			return Response.status(500).entity("No researches available").build();
@@ -42,8 +39,7 @@ public class ResearchService {
 	public Response research(@PathParam("id") String id){
 		Object research = controller.getResearch(id);
 		if (research != null){
-			JSONObject json = new JSONObject();
-			//TODO: map research to json
+			String json = new Gson().toJson(research);
 			return Response.status(200).entity(json).build();
 		}  else {
 			return Response.status(500).entity("Requested resource is not available").build();
