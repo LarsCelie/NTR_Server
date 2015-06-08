@@ -28,7 +28,7 @@ public class UserService {
 		try {
 			 user = controller.authenticate(username, password);
 		} catch (NoSuchAlgorithmException | SQLException e) {
-			System.out.println("Authentication caught an exception failed for: " + username);
+			System.out.println("Authentication caught an exception; failed for: " + username);
 			e.printStackTrace();
 		}
 		if (user != null){

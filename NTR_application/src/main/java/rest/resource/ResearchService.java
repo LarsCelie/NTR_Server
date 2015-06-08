@@ -49,7 +49,7 @@ public class ResearchService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{surveyId}")
+	@Path("/survey/{surveyId}")
 	public Response getSurvey(@PathParam("surveyId") String id){
 		Survey survey = controller.getSurvey(id);
 		if (survey != null){
@@ -59,15 +59,4 @@ public class ResearchService {
 			return Response.status(500).encoding("Requested survey resource is not available").build();
 		}
 	}
-	
-	/*
-	 * 
-	 * 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/survey/{surveyId}")
-	Public Response getSurvey(@PathParam("surveyId") String id){
-		
-		return null;
-	}
-	 */
 }
