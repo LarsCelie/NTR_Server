@@ -8,27 +8,24 @@ import javax.ws.rs.core.StreamingOutput;
 import main.java.services.MediaStreamer;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Date;
 
 
-@Path("/listen")
+@Path("/listen/{id}")
 public class AudioService {
 
     final int chunk_size = 1024 * 1024; // 1MB chunks
     private final File audio;
 
-    public AudioService() {
+    public AudioService(@PathParam("id") String id) {
         // serve media from file system
-        String MEDIA_FILE = "c:/audio_test_01.mp3";
-//        URL url = this.getClass().getResource(MEDIA_FILE);
+        String MEDIA_FILE = "c:/NTR/Upload/Audio/"+id+".mp3";
         audio = new File(MEDIA_FILE);
     }
 
-    //A simple way to verify if the server supports range headers.
     @HEAD
     @Produces("audio/mp3")
     public Response header() {
