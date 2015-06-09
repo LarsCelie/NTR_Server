@@ -28,6 +28,7 @@ public class Controller {
 		ResultSet rs = null;
 		
 		try {
+			con = connect();
 			boolean userExist = true;
 			// INPUT VALIDATION
 			if (username == null || password == null) {
@@ -38,14 +39,18 @@ public class Controller {
 				username = "";
 				password = "";
 			}
-			
-			ps = con.prepareStatement("SELECT PASSWORD, SALT FROM CREDENTIAL WHERE LOGIN = ?");
+			User user = null;
+			ps = con.prepareStatement("SELECT * FROM CREDENTIAL WHERE LOGIN = ?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			String digest, salt;
 			if (rs.next()) {
 				digest = rs.getString("PASSWORD");
 				salt = rs.getString("SALT");
+				user.setEmail(rs.getString("EMAIL"));
+				user.setFirstname(rs.getString("FIRST_NAME"));
+				user.setLastname(rs.getString("LAST_NAME"));
+				user.setUsername(rs.getString("USERNAME"));
 				// DATABASE VALIDATION
 				if (digest == null || salt == null) {
 					throw new SQLException("Database inconsistant Salt or Digested Password altered");
@@ -71,7 +76,7 @@ public class Controller {
 			byte[] proposedDigest = getHash(ITERATION_NUMBER, password, baseSalt);
 
 			if (Arrays.equals(proposedDigest, baseDigest) && userExist){
-				return new User(); //TODO: Map database to object
+				return user; //TODO: Map database to object
 			} else {
 				return null;
 			}
@@ -80,30 +85,35 @@ public class Controller {
 		} finally {
 			close(rs);
 			close(ps);
+			closeConnection(con);
 		}
 	}
 
-	public boolean createUser(String username, String password) throws SQLException, NoSuchAlgorithmException {
+	public boolean createUser(User user) throws SQLException, NoSuchAlgorithmException {
 		PreparedStatement ps = null;
+		Connection con = null;
 		try {
-			if (username != null && password != null && username.length() <= 100) {
-				Connection con = null; //TODO: Reference a database connection
+			if (user.getUsername() != null && user.getPassword() != null && user.getUsername().length() <= 100) {
+				con = connect();
 				// Uses a secure Random not a simple Random
 				SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 				// Salt generation 64 bits long
 				byte[] bSalt = new byte[8];
 				random.nextBytes(bSalt);
 				// Digest computation
-				byte[] bDigest = getHash(ITERATION_NUMBER, password, bSalt);
+				byte[] bDigest = getHash(ITERATION_NUMBER, user.getPassword(), bSalt);
 			
 				String sDigest = Base64.getEncoder().encodeToString(bDigest);
 				String sSalt = Base64.getEncoder().encodeToString(bSalt);
 				
 				
-				ps = con.prepareStatement("INSERT INTO CREDENTIAL (LOGIN, PASSWORD, SALT) VALUES (?,?,?)");
-				ps.setString(1, username);
+				ps = con.prepareStatement("INSERT INTO NTR_USER (USERNAME, PASSWORD, SALT, ID,FIRST_NAME,LAST_NAME,EMAIL) VALUES (?,?,?,NTR_USER_ID.nextval,?,?,?)");
+				ps.setString(1, user.getUsername());
 				ps.setString(2, sDigest);
 				ps.setString(3, sSalt);
+				ps.setString(4, user.getFirstname());
+				ps.setString(5, user.getLastname());
+				ps.setString(6, user.getEmail());
 				ps.executeUpdate();
 				
 				return true;
@@ -112,6 +122,7 @@ public class Controller {
 			}
 		} finally {
 			close(ps);
+			closeConnection(con);
 		}
 	}
 
@@ -162,5 +173,28 @@ public class Controller {
 	public Survey getSurvey(String id) {
 		// TODO ask survey object the specified survey with this id
 		return null;
+	}
+	public Connection connect() {
+		Connection con = null;
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			String serverName = "192.168.1.100";
+			String portNumber = "1521";
+			String sid = "xe";
+			String url = "jdbc:oracle:thin:@"+serverName+":"+portNumber+":"+sid;
+			String username = "NTR_database";
+			String password = "NTR";
+			con = DriverManager.getConnection(url,username,password);
+		} catch(SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+	public void closeConnection(Connection con) {
+		try {
+			if(con != null) con.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

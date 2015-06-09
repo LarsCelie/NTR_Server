@@ -4,10 +4,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,7 +23,7 @@ public class UserService {
 	
 	@POST //Post so you can't see the information in the browser history easily
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticate(@QueryParam("username") String username, @QueryParam("password") String password){
+	public Response authenticate(@FormParam("username") String username, @FormParam("password") String password){
 		User user = null;
 		try {
 			 user = controller.authenticate(username, password);
@@ -39,7 +39,6 @@ public class UserService {
 		}
 	}
 	
-	
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -47,9 +46,7 @@ public class UserService {
 		boolean created = false;
 		try {
 			User user = new Gson().fromJson(json, User.class);
-			String username = user.getUsername();
-			String password = user.getPassword();
-			created = controller.createUser(username, password);
+			created = controller.createUser(user);
 		} catch (NoSuchAlgorithmException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
