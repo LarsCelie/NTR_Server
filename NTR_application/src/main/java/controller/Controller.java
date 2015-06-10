@@ -40,7 +40,7 @@ public class Controller {
 				password = "";
 			}
 			User user = new User();
-			ps = con.prepareStatement("SELECT * FROM CREDENTIAL WHERE USERNAME = ?");
+			ps = con.prepareStatement("SELECT * FROM NTR_USER WHERE USERNAME = ?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			String digest, salt;
