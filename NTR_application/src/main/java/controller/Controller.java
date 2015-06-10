@@ -39,8 +39,8 @@ public class Controller {
 				username = "";
 				password = "";
 			}
-			User user = null;
-			ps = con.prepareStatement("SELECT * FROM CREDENTIAL WHERE LOGIN = ?");
+			User user = new User();
+			ps = con.prepareStatement("SELECT * FROM CREDENTIAL WHERE USERNAME = ?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			String digest, salt;
