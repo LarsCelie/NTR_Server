@@ -21,6 +21,7 @@ public class Question {
 
     private ArrayList<Option> options = new ArrayList<>();
     private ArrayList<Attachment> attachments = new ArrayList<>();
+    private Answer answer;
 
     // Constructor
     public Question() {
@@ -90,4 +91,12 @@ public class Question {
     public void removeAttachment(Attachment attachment) {
         attachments.remove(attachment);
     }
+
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
 }

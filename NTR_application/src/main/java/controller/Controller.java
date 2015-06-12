@@ -8,7 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
+import main.java.domain.Answer;
+import main.java.domain.Question;
 import main.java.domain.Research;
 import main.java.domain.Survey;
 import main.java.domain.User;
@@ -169,11 +172,54 @@ public class Controller {
 		// TODO ask research object the specified research with this id
 		return null;
 	}
-
-	public Survey getSurvey(String id) {
-		// TODO ask survey object the specified survey with this id
-		return null;
+	
+	
+	public ArrayList<Answer> getAnswers(String Surveyid) throws SQLException {
+		
+		PreparedStatement ps = null;
+		Connection conn = null;
+		ResultSet resultQ = null;
+		ResultSet resultA = null;
+		ArrayList<Question> questions = new ArrayList<Question>();
+		ArrayList<Answer> answers = new ArrayList<Answer>();
+		
+		try {
+			conn = connect();
+			
+			// First get all Questions
+			ps = conn.prepareStatement("SELECT * FROM QUESTION WHERE SURVEYID = ?");
+			ps.setString(1, Surveyid);
+			resultQ = ps.executeQuery();
+			
+			while (resultQ.next()) {
+				Question question = new Question();
+				question.setId(resultQ.getInt("ID"));
+				questions.add(question);
+			}
+			
+			// Get all answers
+			for(Question q : questions) {
+				ps = conn.prepareStatement("SELECT * FROM ANSWER WHERE QUESTIONID = ?");
+				ps.setLong(1, q.getId());
+			}
+			resultA = ps.executeQuery();
+			
+			while (resultA.next()) {
+				Answer answer = new Answer();
+				answer.setId(resultA.getInt("ID"));
+				answer.setAnswer(resultA.getString("ANSWER"));
+				answers.add(answer);
+			}
+			
+		} finally {
+			close(ps);
+			closeConnection(conn);
+		}
+		System.out.println(answers);
+		return answers;
 	}
+	
+	
 	public Connection connect() {
 		Connection con = null;
 		try {
