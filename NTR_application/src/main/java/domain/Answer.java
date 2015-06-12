@@ -7,6 +7,7 @@ public class Answer {
 	private User user;
 	private Question question;
 	private int userId, questionId;
+	private String username_fk;
 	
 	public Answer() {
 		
@@ -51,5 +52,13 @@ public class Answer {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public String getUsername_fk() {
+		return username_fk;
+	}
+
+	public void setUsername_fk(String username_fk) {
+		this.username_fk = username_fk;
 	}
 }

@@ -5,17 +5,17 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import main.java.controller.AnswerController;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@Path("result")
-public class ResultService {
+import main.java.controller.AnswerController;
+
+@Path("/answer")
+public class AnswerService {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void postResults(String json) {
+	public void postAnswers(String json) {
 		new AnswerController().postAnswers((JsonObject)new JsonParser().parse(json));
 	}
 }

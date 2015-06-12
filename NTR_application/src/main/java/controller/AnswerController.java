@@ -14,19 +14,21 @@ public class AnswerController {
 	public AnswerController(){}
 	
 	public void postAnswers(JsonObject json) {
+		System.out.println(json.toString());
 		ArrayList<Answer> answers = new ArrayList<Answer>();
-		int userID = json.get("userId").getAsInt();
+		String userID = json.get("username_fk").getAsString();
 		JsonArray jsonAnswers = json.getAsJsonArray("answers");
 		for(JsonElement i : jsonAnswers) {
 			JsonObject item = (JsonObject)i;
 			Answer answer = new Answer();
-			answer.setUserId(userID);
+			answer.setUsername_fk(userID);
 			answer.setQuestionId(item.get("question").getAsInt());
 			answer.setAnswer(item.get("answer").getAsString());
 			answers.add(answer);
 		}
 		for(Answer a : answers) {
-			AnswerDao.addAnswer(a);
+			AnswerDao dao = new AnswerDao();
+			dao.addAnswer(a);
 		}
 	}
 }
