@@ -2,7 +2,9 @@ package main.java.rest.resource;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -10,11 +12,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-
 import main.java.controller.Controller;
 import main.java.domain.Research;
 import main.java.domain.Survey;
+
+import com.google.gson.Gson;
 
 @Path("/Research")
 public class ResearchService {
@@ -58,5 +60,13 @@ public class ResearchService {
 		} else {
 			return Response.status(500).encoding("Requested survey resource is not available").build();
 		}
+	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/survey")
+	public Response putSurvey(String json){
+		
+		return Response.status(200).build();
 	}
 }
