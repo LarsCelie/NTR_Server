@@ -243,4 +243,9 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
+
+	public Survey getSurvey(String id) {
+		// TODO get the Survey with specific id
+		return null;
+	}
 }
