@@ -6,6 +6,7 @@ public class Answer {
 	private String answer;
 	private User user;
 	private Question question;
+	private int userId, questionId;
 	
 	public Answer() {
 		
@@ -34,5 +35,21 @@ public class Answer {
 	}
 	public void setQuestion(Question question) {
 		this.question = question;
+	}
+
+	public int getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 }
