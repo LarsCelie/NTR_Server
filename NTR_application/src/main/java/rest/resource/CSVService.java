@@ -31,27 +31,30 @@ public class CSVService {
 	@Produces("application/vnd.ms-excel")
 	public Response getResults(@PathParam("surveyId") String id) throws SQLException {
 		
-		controller.getAnswers(id);
+		ArrayList<Answer> answers = controller.getAnswers(id);
+		writeCSV(answers);
+		
 		File file = new File(FILE_PATH);
 		 
 		ResponseBuilder response = Response.ok((Object) file);
 		response.header("Content-Disposition",
-			"attachment; filename=new-excel-file.xls");
+			"attachment; filename=new-excel-file.csv");
 		return response.build();
 		
 	}
 	
-	// Delimiter used in CSV file
-	private static final String COMMA_DELIMITER = ";";
-	private static final String NEW_LINE_SEPARATOR = "\n";
-		
-	// CSV file header
-	private static final String FILE_HEADER = "id,answer";
 	
-	// Filewriter
-	FileWriter fileWriter = null;
 	
 	public void writeCSV(ArrayList<Answer> answers) {
+		// Delimiter used in CSV file
+		final String COMMA_DELIMITER = ";";
+		final String NEW_LINE_SEPARATOR = "\n";
+			
+		// CSV file header
+		final String FILE_HEADER = "id,answer";
+		
+		// Filewriter
+		FileWriter fileWriter = null;
 		try{
 			
 			fileWriter = new FileWriter("c:\\NTR\\result.csv");

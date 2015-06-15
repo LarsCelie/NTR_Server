@@ -179,7 +179,8 @@ public class Controller {
 		PreparedStatement ps = null;
 		Connection conn = null;
 		ResultSet resultQ = null;
-		ResultSet resultA = null;
+		
+		ArrayList<ResultSet> resultSetQuestions = new ArrayList<ResultSet>();
 		ArrayList<Question> questions = new ArrayList<Question>();
 		ArrayList<Answer> answers = new ArrayList<Answer>();
 		
@@ -197,18 +198,23 @@ public class Controller {
 				questions.add(question);
 			}
 			
+			ResultSet resultA = null;
 			// Get all answers
 			for(Question q : questions) {
 				ps = conn.prepareStatement("SELECT * FROM ANSWER WHERE QUESTIONID = ?");
 				ps.setLong(1, q.getId());
+				resultA = ps.executeQuery();
+				resultSetQuestions.add(resultA);
 			}
-			resultA = ps.executeQuery();
 			
-			while (resultA.next()) {
-				Answer answer = new Answer();
-				answer.setId(resultA.getInt("ID"));
-				answer.setAnswer(resultA.getString("ANSWER"));
-				answers.add(answer);
+			for(ResultSet r : resultSetQuestions) {
+				while (r.next()) {
+					Answer answer = new Answer();
+					answer.setId(r.getInt("ID"));
+					answer.setAnswer(r.getString("ANSWER"));
+					answers.add(answer);
+				}
+				r.close();
 			}
 			
 		} finally {
