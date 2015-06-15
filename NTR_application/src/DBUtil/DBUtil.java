@@ -13,7 +13,7 @@ public final class DBUtil {
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			String serverName = "192.168.1.100";
+			String serverName = "92.109.48.222";
 			String portNumber = "1521";
 			String sid = "xe";
 			String url = "jdbc:oracle:thin:@"+serverName+":"+portNumber+":"+sid;

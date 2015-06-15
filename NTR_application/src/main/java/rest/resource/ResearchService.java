@@ -66,7 +66,6 @@ public class ResearchService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/survey")
 	public Response putSurvey(String json){
-		
 		return Response.status(200).build();
 	}
 }
