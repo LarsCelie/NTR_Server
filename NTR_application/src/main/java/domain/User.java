@@ -1,13 +1,53 @@
 package main.java.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "NTR_USER")
 public class User {
-	private String id, username, password, firstname, lastname, email;
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_id")
+	@SequenceGenerator(name="user_id", sequenceName="NTR_USER_ID", allocationSize = 1)
+	@Column(name="ID")
+	private int id;
 	
+	@Column(name="USERNAME")
+	private String username;
+	
+	@Column(name="PASSWORD")
+	private String password;
+	
+	@Column(name="FIRST_NAME")
+	private String firstname;
+	
+	@Column(name="LAST_NAME")
+	private String lastname;
+	
+	@Column(name="EMAIL")
+	private String email;
+	
+	@Column(name="SALT")
+	private String salt;
+	
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
 	public User(){
 		super();
 	}
 
-	public User(String id, String username, String password, String firstname, String lastname, String email) {
+	public User(int id, String username, String password, String firstname, String lastname, String email) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -19,11 +59,11 @@ public class User {
 
 
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -66,8 +106,5 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	
 }
 

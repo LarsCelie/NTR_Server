@@ -13,13 +13,13 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
-import main.java.controller.Controller;
+import main.java.controller.UserController;
 import main.java.domain.User;
 
 @Path("/session")
 public class UserService {
 	
-	private Controller controller = new Controller();
+	private UserController controller = new UserController();
 	
 	@POST //Post so you can't see the information in the browser history easily
 	@Produces(MediaType.APPLICATION_JSON)
@@ -27,7 +27,7 @@ public class UserService {
 		User user = null;
 		try {
 			 user = controller.authenticate(username, password);
-		} catch (NoSuchAlgorithmException | SQLException e) {
+		} catch (NoSuchAlgorithmException e) {
 			System.out.println("Authentication caught an exception; failed for: " + username);
 			e.printStackTrace();
 		}
