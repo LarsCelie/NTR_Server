@@ -1,7 +1,6 @@
 package main.java.rest.resource;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -47,7 +46,7 @@ public class UserService {
 		try {
 			User user = new Gson().fromJson(json, User.class);
 			created = controller.createUser(user);
-		} catch (NoSuchAlgorithmException | SQLException e) {
+		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
