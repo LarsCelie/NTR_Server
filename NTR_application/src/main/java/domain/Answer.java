@@ -1,17 +1,31 @@
 package main.java.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "NTR_ANSWER")
 public class Answer {
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="answer_id")
+	@SequenceGenerator(name="answer_id", sequenceName="NTR_ANSWER_ID", allocationSize=1)
 	private int id;
+	@Column(name="ANSWER")
 	private String answer;
+	@OneToOne
+	@JoinColumn(name = "USERID") //TODO change code and databse so that pk is used for reference
 	private User user;
+	@ManyToOne
+	@JoinColumn(name = "QUESTIONID")
 	private Question question;
-	private int userId, questionId;
-	private String username_fk;
-	
-	public Answer() {
-		
-	}
 	
 	public int getId() {
 		return id;
@@ -36,29 +50,5 @@ public class Answer {
 	}
 	public void setQuestion(Question question) {
 		this.question = question;
-	}
-
-	public int getQuestionId() {
-		return questionId;
-	}
-
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public String getUsername_fk() {
-		return username_fk;
-	}
-
-	public void setUsername_fk(String username_fk) {
-		this.username_fk = username_fk;
 	}
 }

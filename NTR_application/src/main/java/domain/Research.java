@@ -1,20 +1,29 @@
 package main.java.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "NTR_RESEARCH")
 public class Research {
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="research_id")
+	@SequenceGenerator(name="research_id",sequenceName="NTR_RESEARCH_ID",allocationSize=1)
 	private int id;
+	@Column(name = "NAME")
 	private String name;
+	@Column(name = "BEGINDATE")
 	private Date beginDate;
+	@Column(name = "ENDDATE")
 	private Date endDate;
-	private String status;
-	private ArrayList<Survey> surveys = new ArrayList<>();
-
-	public Research() {
-
-	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -45,29 +54,5 @@ public class Research {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public ArrayList<Survey> getSurveys() {
-		return surveys;
-	}
-
-	public void setSurveys(ArrayList<Survey> surveys) {
-		this.surveys = surveys;
-	}
-
-	public void addSurvey(Survey survey) {
-		surveys.add(survey);
-	}
-
-	public void removeSurvey(Survey survey) {
-		surveys.remove(survey);
 	}
 }

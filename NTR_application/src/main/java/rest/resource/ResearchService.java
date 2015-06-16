@@ -1,6 +1,6 @@
 package main.java.rest.resource;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -8,25 +8,23 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import main.java.controller.Controller;
+import main.java.controller.ResearchController;
 import main.java.domain.Research;
-import main.java.domain.Survey;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
-@Path("/Research")
+@Path("/research")
 public class ResearchService {
-	
-	private Controller controller = new Controller();
+	private ResearchController controller = new ResearchController();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response allResearches(@QueryParam("onlyAvailable") boolean available){
-		ArrayList<Research> researches = controller.getAllResearches(available);
+	public Response allResearches(){
+		List<Research> researches = controller.getAllAvailableResearches();
 		
 		if (researches != null && !researches.isEmpty()){
 			String json = new Gson().toJson(researches);
@@ -39,7 +37,7 @@ public class ResearchService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{researchId}")
-	public Response research(@PathParam("researchId") String id){
+	public Response research(@PathParam("researchId") int id){
 		Research research = controller.getResearch(id);
 		if (research != null){
 			String json = new Gson().toJson(research);
@@ -49,23 +47,15 @@ public class ResearchService {
 		}
 	}
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/survey/{surveyId}")
-	public Response getSurvey(@PathParam("surveyId") String id){
-		Survey survey = controller.getSurvey(id);
-		if (survey != null){
-			String json = new Gson().toJson(survey);
-			return Response.status(200).entity(json).build();
-		} else {
-			return Response.status(500).encoding("Requested survey resource is not available").build();
-		}
-	}
-	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/survey")
-	public Response putSurvey(String json){
-		return Response.status(200).build();
+	@Path("")
+	public Response putResearch(JsonObject json) {
+		boolean succes = controller.putResearch(json);
+		if(succes) {
+			return Response.status(200).entity("succes").build();
+		} else {
+			return Response.status(500).entity("Something went wrong").build();
+		}
 	}
 }

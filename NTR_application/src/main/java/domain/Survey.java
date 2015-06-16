@@ -3,21 +3,32 @@ package main.java.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "NTR_SURVEY")
 public class Survey{
-
-    //Variables
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="survey_id")
+	@SequenceGenerator(name="survey_id",sequenceName="NTR_SURVEY_ID",allocationSize=1)
     private int id;
+	@Column(name = "NAME")
     private String name;
+	@Column(name = "BEGINDATE")
     private Date beginDate;
+	@Column(name = "ENDDATE")
     private Date endDate;
-    private String status;
-    private ArrayList<Question> questions = new ArrayList<>();
-
-    // Constructor
-    public Survey() {
-
-    }
-    // Methods
+	@ManyToOne
+	@JoinColumn(name = "RESEARCHID")
+	private Research research;
 
     public int getId() {
         return id;
@@ -49,34 +60,5 @@ public class Survey{
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public ArrayList<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(ArrayList<Question> questions) {
-        this.questions = questions;
-    }
-
-    public void addQuestion(Question question) {
-        questions.add(question);
-    }
-
-    public void removeQuestion(Question question) {
-        questions.remove(question);
-    }
-
-
-    public String toString() {
-        return name + " heeft "  +  questions.size() + " vragen";
     }
 }

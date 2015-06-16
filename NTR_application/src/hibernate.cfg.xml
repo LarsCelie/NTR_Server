@@ -8,7 +8,7 @@
    <session-factory>
         <!-- Database connection settings -->
         <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-        <property name="connection.url">jdbc:oracle:thin:@192.168.1.100:1521:xe</property>
+        <property name="connection.url">jdbc:oracle:thin:@92.109.48.222:1521:xe</property>
         <property name="connection.username">NTR_database</property>
         <property name="connection.password">NTR</property>
  

@@ -1,34 +1,64 @@
 package main.java.domain;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "NTR_QUESTION")
 public class Question {
-
-    // Variabels
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="question_id")
+	@SequenceGenerator(name="question_id",sequenceName="NTR_QUESTION_ID",allocationSize=1)
     private int id;
+	@Column(name = "DESCRIPTION")
     private String description;
+	@Column(name = "SEQUENCE")
     private int sequence;
+	@Column(name = "TYPE")
     private String type;
-    private String naam;
+	@ManyToOne
+	@JoinColumn(name = "SURVEYID")
+	private Survey survey;
+	@OneToMany(mappedBy="question")
+    private List<Option> options;
+	@OneToMany(mappedBy="question")
+    private List<Attachment> attachments;
 
-    public String getNaam() {
-        return naam;
-    }
+    public Survey getSurvey() {
+		return survey;
+	}
 
-    public void setNaam(String naam) {
-        this.naam = naam;
-    }
+	public void setSurvey(Survey survey) {
+		this.survey = survey;
+	}
 
-    private ArrayList<Option> options = new ArrayList<>();
-    private ArrayList<Attachment> attachments = new ArrayList<>();
-    private Answer answer;
+	public List<Option> getOptions() {
+		return options;
+	}
 
-    // Constructor
-    public Question() {
+	public void setOptions(List<Option> options) {
+		this.options = options;
+	}
 
-    }
+	public List<Attachment> getAttachments() {
+		return attachments;
+	}
 
-    public int getId() {
+	public void setAttachments(List<Attachment> attachments) {
+		this.attachments = attachments;
+	}
+
+	public int getId() {
         return id;
     }
 
@@ -59,44 +89,4 @@ public class Question {
     public void setType(String type) {
         this.type = type;
     }
-
-    public ArrayList<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(ArrayList<Option> options) {
-        this.options = options;
-    }
-
-    public void addOption(Option option) {
-        options.add(option);
-    }
-
-    public void removeOption(Option option) {
-        options.remove(option);
-    }
-
-    public ArrayList<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(ArrayList<Attachment> attachments) {
-        this.attachments = attachments;
-    }
-
-    public void addAttachment(Attachment attachment){
-        attachments.add(attachment);
-    }
-
-    public void removeAttachment(Attachment attachment) {
-        attachments.remove(attachment);
-    }
-
-	public Answer getAnswer() {
-		return answer;
-	}
-
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
-	}
 }

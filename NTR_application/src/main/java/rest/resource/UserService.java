@@ -47,7 +47,6 @@ public class UserService {
 			User user = new Gson().fromJson(json, User.class);
 			created = controller.createUser(user);
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -1,20 +1,34 @@
 package main.java.domain;
 
-public class Option{
-    private int id;
-    private String content;
-    private String value;
-    private boolean selected = false;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-    public Option() {
-    }
-    
-	public Option(int id, String content, String value, boolean selected) {
-		super();
-		this.id = id;
-		this.content = content;
-		this.value = value;
-		this.selected = selected;
+@Entity
+@Table(name = "NTR_OPTION")
+public class Option{
+	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="option_id")
+	@SequenceGenerator(name="option_id",sequenceName="NTR_OPTION_ID",allocationSize=1)
+    private int id;
+	@Column(name = "VALUE")
+    private String value;
+	@ManyToOne
+	@JoinColumn(name="QUESTIONID")
+	private Question question;
+	
+    public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public int getId() {
@@ -25,29 +39,11 @@ public class Option{
 		this.id = id;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 	public String getValue() {
 		return value;
 	}
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public boolean isSelected() {
-		return selected;
-	}
-
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
-    
-    
+	}    
 }

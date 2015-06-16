@@ -43,22 +43,6 @@ public class User {
 		this.salt = salt;
 	}
 
-	public User(){
-		super();
-	}
-
-	public User(int id, String username, String password, String firstname, String lastname, String email) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-	}
-
-
-
 	public int getId() {
 		return id;
 	}
