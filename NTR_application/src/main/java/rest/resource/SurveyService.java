@@ -55,6 +55,7 @@ public class SurveyService {
 	public Response postSurvey(final MultiPart multiPart){
 		for (BodyPart part : multiPart.getBodyParts()){
 			System.out.println(part.getEntity().toString());
+			System.out.println(part.getHeaders().toString());
 		}
 		return Response.ok("Survey is gemaakt").build();
 	}
