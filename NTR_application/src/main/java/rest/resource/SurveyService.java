@@ -11,7 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
 
 import com.google.gson.Gson;
 
@@ -50,8 +52,10 @@ public class SurveyService {
 	
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response postSurvey(final FormDataMultiPart multiPart){
-		System.out.println(multiPart.toString());
-		return Response.ok().build();
+	public Response postSurvey(final MultiPart multiPart){
+		for (BodyPart part : multiPart.getBodyParts()){
+			System.out.println(part.getEntity().toString());
+		}
+		return Response.ok("Survey is gemaakt").build();
 	}
 }
