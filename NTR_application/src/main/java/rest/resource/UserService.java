@@ -7,13 +7,20 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.MultiPart;
 
 import main.java.controller.UserController;
 import main.java.domain.User;
+
+import com.google.gson.Gson;
+
 
 @Path("/session")
 public class UserService {
@@ -55,5 +62,13 @@ public class UserService {
 		} else {
 			return Response.status(500).entity("Something went wrong").build();
 		}
+	}
+	
+	@POST
+	@Path("/test")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response postSurvey(final FormDataMultiPart multiPart){
+		System.out.println(multiPart.toString());
+		return null;
 	}
 }
