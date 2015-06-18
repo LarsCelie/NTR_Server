@@ -23,7 +23,7 @@ public class ResearchService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response allResearches(){
+	public Response allAvailableResearches(){
 		List<Research> researches = controller.getAllAvailableResearches();
 		
 		if (researches != null && !researches.isEmpty()){
