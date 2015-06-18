@@ -63,12 +63,4 @@ public class UserService {
 			return Response.status(500).entity("Something went wrong").build();
 		}
 	}
-	
-	@POST
-	@Path("/test")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response postSurvey(final FormDataMultiPart multiPart){
-		System.out.println(multiPart.toString());
-		return null;
-	}
 }

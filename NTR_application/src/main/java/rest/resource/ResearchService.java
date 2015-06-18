@@ -49,7 +49,6 @@ public class ResearchService {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("")
 	public Response putResearch(JsonObject json) {
 		boolean succes = controller.putResearch(json);
 		if(succes) {
