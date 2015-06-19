@@ -16,4 +16,8 @@ public class ResearchDao extends GenericDaoImpl<Research>{
 		Query query = getSession().createQuery("from Research where :date between beginDate and endDate").setParameter("date", new Date(Calendar.getInstance().getTimeInMillis()));
 		return query.list();
 	}
+
+	public Research load(int researchid) {
+		return (Research) getSession().load(Research.class, researchid);
+	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
 
+import main.java.dao.ResearchDao;
 import main.java.dao.SurveyDao;
 import main.java.domain.Survey;
 
@@ -54,6 +55,7 @@ public class SurveyController {
 		survey.setBeginDate(begin);
 		survey.setEndDate(end);
 		survey.setName(name);
+		survey.setResearch(new ResearchDao().load(researchid));
 		
 		
 		
@@ -62,7 +64,7 @@ public class SurveyController {
 			System.out.println(part.getHeaders().toString());
 			System.out.println(part.getContentDisposition().toString());
 		}
-		
+		new SurveyDao().create(survey);
 		return true;
 	}
 	

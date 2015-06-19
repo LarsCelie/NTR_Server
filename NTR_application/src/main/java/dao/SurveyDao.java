@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.Transaction;
 
 import main.java.domain.Survey;
 
