@@ -3,15 +3,20 @@ package main.java.controller;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.glassfish.jersey.media.multipart.BodyPart;
-import org.glassfish.jersey.media.multipart.MultiPart;
-
+import main.java.dao.QuestionDao;
 import main.java.dao.ResearchDao;
 import main.java.dao.SurveyDao;
+import main.java.domain.Option;
+import main.java.domain.Question;
 import main.java.domain.Survey;
+import oracle.net.aso.q;
+
+import org.glassfish.jersey.media.multipart.BodyPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
 
 public class SurveyController {
 	public List<Survey> getAvailableSurveysByResearch(int id) {
@@ -58,13 +63,54 @@ public class SurveyController {
 		survey.setResearch(new ResearchDao().load(researchid));
 		
 		
-		
-		for (BodyPart part : multiPart.getBodyParts()){
-			System.out.println(part.getEntity().toString());
-			System.out.println(part.getHeaders().toString());
-			System.out.println(part.getContentDisposition().toString());
+		List<BodyPart> parts = multiPart.getBodyParts();
+		Question q = null;
+		int sequence = 0;
+		List<Option> options = new ArrayList<Option>();
+		List<Question> questions = new ArrayList<Question>();
+		for (int i = 4; i < parts.size(); i++){
+			BodyPart part = parts.get(i);
+			String contentName = part.getContentDisposition().getParameters().get("name");
+			if (contentName.equals("questionIllustrationFile")){
+				
+				sequence++;
+				q = new Question();
+				questions.add(q);
+				q.setSequence(sequence);
+				q.setSurvey(survey);
+				
+				String fileName = part.getContentDisposition().getFileName();	
+				if (!fileName.isEmpty()){
+					System.out.println(fileName);
+				} else {
+					System.out.println("No file!");
+				}
+			} else if (contentName.equals("questionType")) {
+				String type = part.getEntityAs(String.class);
+				q.setType(type);
+			} else if (contentName.equals("questionValue")){
+				String value = part.getEntityAs(String.class);
+				q.setDescription(value);
+			} else if (contentName.equals("questionOption")){
+				String option = part.getEntityAs(String.class);
+				Option o = new Option();
+				o.setQuestion(q);
+				o.setValue(option);
+				options.add(o);
+			}
+			//questionIllustrationFile
+			//questionType
+			//questionValue
+			//questionOption
+//			String x = part.getContentDisposition().toString();
+//			System.out.println(x);
 		}
+		
 		new SurveyDao().create(survey);
+		QuestionDao qd = new QuestionDao();
+		for (Question quest : questions){
+			qd.create(quest);
+		}
 		return true;
 	}
 	

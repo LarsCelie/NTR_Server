@@ -18,6 +18,7 @@ public class ResearchDao extends GenericDaoImpl<Research>{
 	}
 
 	public Research load(int researchid) {
+		getSession().beginTransaction();
 		return (Research) getSession().load(Research.class, researchid);
 	}
 }
