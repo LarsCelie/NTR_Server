@@ -37,17 +37,6 @@ public class AnswerController {
 			dao.create(a);
 		}
 	}
-	public List<Answer> getAnswers(int surveyId) {
-		QuestionDao daoQuestion = new QuestionDao();
-		AnswerDao daoAnswer = new AnswerDao();
-		List<Answer> answers = new ArrayList<Answer>();
-		for(Question q : daoQuestion.getQuestionBySurveyId(surveyId)) {
-			for(Answer a : daoAnswer.getAnswersByQuestionId(q.getId())) {
-				answers.add(a);
-			}
-		}
-		return answers;
-	}
 	public File getCSV(int surveyId) {
 		final String FILE_PATH = "c:/NTR/CSV/";
 		final String COMMA_DELIMITER = ";";
