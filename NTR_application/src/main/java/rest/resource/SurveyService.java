@@ -26,6 +26,18 @@ public class SurveyService {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSurveys() {
+		List<Survey> surveys = controller.getSurveys();
+		if(surveys != null && !surveys.isEmpty()) {
+			String json = new Gson().toJson(surveys);
+			return Response.status(200).entity(json).build();
+		} else {
+			return Response.status(500).entity("soemthing went wrong").build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/research/{researchId}")
 	public Response getAvailableSurveysByResearch(@PathParam("researchId") int id) {
 		List<Survey> surveys = controller.getAvailableSurveysByResearch(id);

@@ -7,10 +7,6 @@ import org.hibernate.SQLQuery;
 import main.java.domain.Answer;
 
 public class AnswerDao extends GenericDaoImpl<Answer> {
-	public List<Answer> getAnswersByQuestionId(int questionId) {
-		//TODO create method that returns all answers that match questionid 
-		return null;
-	}
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getCSV(List<Integer> questionIds) {
 		getSession().beginTransaction();

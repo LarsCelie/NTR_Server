@@ -21,6 +21,10 @@ public class SurveyController {
 		return new SurveyDao().read(id);
 	}
 
+	public List<Survey> getSurveys() {
+		return new SurveyDao().readAll();
+	}
+	
 	public boolean postSurvey(final MultiPart multiPart) {
 		/*	0: researchid
 		 *  1: name

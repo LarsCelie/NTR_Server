@@ -12,15 +12,14 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 /**
- * 
- * @author Milamber
- *
- * @param <T> the type that the extendsion of this class handles
- * 
+ *  
  * offers the basic implementation of most basic DAO functions. 
  * later classes can extend this one and where needed add more functionality or override the standard
  * extending classes are needed for every type the user wishes to write to the database because an implementation of the variable T is required
  * 
+ * @author Milamber
+ *
+ * @param <T> the type that the extendsion of this class handles 
  */
 @SuppressWarnings("unchecked")
 public abstract class GenericDaoImpl<T> implements GenericDao<T> {

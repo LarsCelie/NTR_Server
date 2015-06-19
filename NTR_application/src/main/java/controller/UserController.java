@@ -13,7 +13,7 @@ import main.java.domain.User;
 public class UserController {
 	private final static int ITERATION_NUMBER = 1000;
 
-	public User authenticate(String username, String password) throws NoSuchAlgorithmException {
+	public User authenticate(String username, String password) {
 		boolean userExist = true;
 		if (username == null || password == null) {
 			userExist = false;
@@ -36,7 +36,12 @@ public class UserController {
 
 		byte[] baseDigest = Base64.getDecoder().decode(digest.getBytes(StandardCharsets.UTF_8));
 		byte[] baseSalt = Base64.getDecoder().decode(salt.getBytes(StandardCharsets.UTF_8));
-		byte[] proposedDigest = getHash(ITERATION_NUMBER, password, baseSalt);
+		byte[] proposedDigest = null;
+		try {
+			proposedDigest = getHash(ITERATION_NUMBER, password, baseSalt);
+		} catch (NoSuchAlgorithmException e) {
+			return null;
+		}
 
 		if (Arrays.equals(proposedDigest, baseDigest) && userExist){
 			return user; 
@@ -45,24 +50,28 @@ public class UserController {
 		} 
 	}
 
-	public boolean createUser(User user) throws NoSuchAlgorithmException {
+	public boolean createUser(User user) {
 		if (user.getUsername() != null && user.getPassword() != null && user.getUsername().length() <= 100) {
 			
-			SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-			// Salt generation 64 bits long
-			byte[] bSalt = new byte[8];
-			random.nextBytes(bSalt);
-			// Digest computation
-			byte[] bDigest = getHash(ITERATION_NUMBER, user.getPassword(), bSalt);
-		
-			String sDigest = Base64.getEncoder().encodeToString(bDigest);
-			String sSalt = Base64.getEncoder().encodeToString(bSalt);
+			SecureRandom random;
+			try {
+				random = SecureRandom.getInstance("SHA1PRNG");
+				// Salt generation 64 bits long
+				byte[] bSalt = new byte[8];
+				random.nextBytes(bSalt);
+				// Digest computation
+				byte[] bDigest = getHash(ITERATION_NUMBER, user.getPassword(), bSalt);
+				String sDigest = Base64.getEncoder().encodeToString(bDigest);
+				String sSalt = Base64.getEncoder().encodeToString(bSalt);
 
-			user.setPassword(sDigest);
-			user.setSalt(sSalt);
-			UserDao dao = new UserDao();
-			dao.create(user);	
-			return true;
+				user.setPassword(sDigest);
+				user.setSalt(sSalt);
+				UserDao dao = new UserDao();
+				dao.create(user);	
+				return true;
+			} catch (NoSuchAlgorithmException e) {
+				return false;
+			}	
 		} else {
 			return false;
 		}
