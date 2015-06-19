@@ -1,6 +1,5 @@
 package main.java.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -61,4 +60,12 @@ public class Survey{
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+	public Research getResearch() {
+		return research;
+	}
+
+	public void setResearch(Research research) {
+		this.research = research;
+	}
 }

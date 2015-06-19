@@ -31,7 +31,7 @@ public class SurveyService {
 		List<Survey> surveys = controller.getAvailableSurveysByResearch(id);
 		if(surveys != null && !surveys.isEmpty()) {
 			String json = new Gson().toJson(surveys);
-			return Response.status(200).entity(json).build();			
+			return Response.ok(json).build();			
 		} else {
 			return Response.status(500).entity("soemthing went wrong").build();
 		}
@@ -44,7 +44,7 @@ public class SurveyService {
 		Survey survey = controller.getSurveyById(id);
 		if(survey != null) {
 			String json = new Gson().toJson(survey);
-			return Response.status(200).entity(json).build();
+			return Response.ok(json).build();
 		} else {
 			return Response.status(500).entity("something went wrong").build();
 		}
@@ -53,10 +53,11 @@ public class SurveyService {
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response postSurvey(final MultiPart multiPart){
-		for (BodyPart part : multiPart.getBodyParts()){
-			System.out.println(part.getEntity().toString());
-			System.out.println(part.getHeaders().toString());
+		boolean success = controller.postSurvey(multiPart);
+		if (success) {
+			return Response.ok("Survey is gemaakt").build();
+		} else {
+			return Response.serverError().build();
 		}
-		return Response.ok("Survey is gemaakt").build();
 	}
 }
