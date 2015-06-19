@@ -2,11 +2,17 @@ package main.java.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 
 import main.java.domain.Answer;
 
 public class AnswerDao extends GenericDaoImpl<Answer> {
+	public List<Answer> getAnswersByQuestionId(int questionId) {
+		getSession().beginTransaction();
+		Query query = getSession().createQuery("from Question where survey.id =:id").setParameter("id", questionId);
+		return query.list();
+	}
 	@SuppressWarnings("unchecked")
 	public List<Object[]> getCSV(List<Integer> questionIds) {
 		getSession().beginTransaction();
