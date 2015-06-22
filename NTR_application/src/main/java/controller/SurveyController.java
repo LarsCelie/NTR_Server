@@ -85,10 +85,11 @@ public class SurveyController {
 				q.setSurvey(survey);
 
 				String fileName = part.getContentDisposition().getFileName();
+				System.out.println(fileName);
 				if (!fileName.isEmpty()) {
 					String type = null;
-					String[] split = fileName.split(".");
-					String extension = split[(split.length-1)];
+					String[] split = fileName.split("\\.");
+					String extension = split[split.length-1];
 					Utility util = Utility.getUtility();
 					if (util.isAudio(extension)){
 						type = "audio";
@@ -143,6 +144,7 @@ public class SurveyController {
 			while ((bytesRead = inputStream.read(buffer)) != -1) {
 				outStream.write(buffer, 0, bytesRead);
 			}
+			System.out.println("File save success: "+fileName);
 			outStream.flush();
 			outStream.close();
 			
