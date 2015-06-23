@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import main.java.dao.AttachmentDao;
+import main.java.dao.OptionDao;
 import main.java.dao.QuestionDao;
 import main.java.dao.ResearchDao;
 import main.java.dao.SurveyDao;
@@ -73,6 +75,7 @@ public class SurveyController {
 		int sequence = 0;
 		List<Option> options = new ArrayList<Option>();
 		List<Question> questions = new ArrayList<Question>();
+		AttachmentDao aDao = new AttachmentDao();
 		for (int i = 4; i < parts.size(); i++) {
 			BodyPart part = parts.get(i);
 			String contentName = part.getContentDisposition().getParameters().get("name");
@@ -90,6 +93,7 @@ public class SurveyController {
 					String type = null;
 					String[] split = fileName.split("\\.");
 					String extension = split[split.length-1];
+					extension = extension.toLowerCase();
 					Utility util = Utility.getUtility();
 					if (util.isAudio(extension)){
 						type = "audio";
@@ -99,14 +103,15 @@ public class SurveyController {
 						type = "image";
 					}
 					if (type != null){
-						InputStream fileStream = part.getEntityAs(FileInputStream.class);
-						String newFileName = researchid + "_" + survey.getId() + "_" + sequence;
+						InputStream fileStream = part.getEntityAs(InputStream.class);
+						String newFileName = researchid + "_" + survey.getId() + "_" + sequence + "." + extension;
 						boolean save = saveAsFile(fileStream, type, newFileName);
 						if (save){
 							Attachment a = new Attachment();
 							a.setLocation(newFileName);
 							a.setQuestion(q);
 							a.setType(type);
+							aDao.create(a);
 						}
 					} else {
 						System.out.println("Type unsupported");
@@ -133,6 +138,12 @@ public class SurveyController {
 		for (Question quest : questions) {
 			qd.create(quest);
 		}
+		
+		OptionDao oDao = new OptionDao();
+		for (Option o : options){
+			oDao.create(o);
+		}
+		
 		return true;
 	}
 
