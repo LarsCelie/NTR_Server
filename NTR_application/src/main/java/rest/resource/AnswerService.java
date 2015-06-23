@@ -12,6 +12,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.glassfish.jersey.media.multipart.BodyPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -58,5 +61,17 @@ public class AnswerService {
 		} else {
 			return Response.status(500).entity("something went wrong").build();
 		}		
+	}
+	
+	@POST
+	@Path("/test")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response testAnswerPost(final MultiPart multipart){
+		for (BodyPart part : multipart.getBodyParts()){
+			String output = part.getEntityAs(String.class);
+			System.out.println(output);
+		}
+		
+		return Response.ok().build();
 	}
 }
