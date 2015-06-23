@@ -75,7 +75,7 @@ public class SurveyController {
 		int sequence = 0;
 		List<Option> options = new ArrayList<Option>();
 		List<Question> questions = new ArrayList<Question>();
-		AttachmentDao aDao = new AttachmentDao();
+		List<Attachment> attachments = new ArrayList<Attachment>();
 		for (int i = 4; i < parts.size(); i++) {
 			BodyPart part = parts.get(i);
 			String contentName = part.getContentDisposition().getParameters().get("name");
@@ -111,7 +111,7 @@ public class SurveyController {
 							a.setLocation(newFileName);
 							a.setQuestion(q);
 							a.setType(type);
-							aDao.create(a);
+							attachments.add(a);
 						}
 					} else {
 						System.out.println("Type unsupported");
@@ -144,6 +144,10 @@ public class SurveyController {
 			oDao.create(o);
 		}
 		
+		AttachmentDao aDao = new AttachmentDao();
+		for (Attachment a : attachments){
+			aDao.create(a);
+		}
 		return true;
 	}
 
@@ -161,6 +165,8 @@ public class SurveyController {
 			
 			return true;
 		} catch (IOException ioex) {
+			System.out.println("Something went wrong when saving the file: "+fileName);
+			ioex.printStackTrace();
 			return false;
 		} finally {
 			try {
