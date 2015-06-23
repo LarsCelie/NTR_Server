@@ -17,17 +17,34 @@ import com.google.gson.JsonParser;
 
 import main.java.controller.AnswerController;
 
+/**
+ * Class bundling all the rest services which primarily use the Answer object.
+ * 
+ * @author Milamber
+ *
+ */
 @Path("/answer")
 public class AnswerService {
 	
 	private AnswerController controller = new AnswerController();
 	
+	/**
+	 * rest service that posts a set of Answers to the database
+	 * 
+	 * @param json contains a set of Answer objects to be posted to the database.
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void postAnswers(String json) {
 		new AnswerController().postAnswers((JsonObject)new JsonParser().parse(json));
 	}
 	
+	/**
+	 * rest service which gives a CSV with results from a survey
+	 * 
+	 * @param id the id of the Survey for which the user wants the results
+	 * @return a CSV file containing the results of a survey
+	 */
 	@GET
 	@Path("/{surveyId}")
 	@Produces("application/vnd.ms-excel")

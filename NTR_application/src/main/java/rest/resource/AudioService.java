@@ -13,25 +13,48 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Date;
 
-
+/**
+ * Class for creating an audio stream
+ * 
+ * @author Milamber
+ *
+ */
 @Path("/listen/{id}")
 public class AudioService {
 
-    final int chunk_size = 1024 * 1024; // 1MB chunks
+	/**
+	 * Size of the chunks which the stream will send to consumer (1024*1024 is 1mb chunks)
+	 */
+    final int chunk_size = 1024 * 1024;
+    /**
+     * The audio file which to stream with the service.
+     * Is final because it should and can not be changed during the stream.
+     */
     private final File audio;
 
     public AudioService(@PathParam("id") String id) {
-        // serve media from file system
         String MEDIA_FILE = "c:/NTR/Upload/Audio/"+id+".mp3";
         audio = new File(MEDIA_FILE);
     }
 
+    /**
+     * Header to notify consumer how long the streamed file is.
+     * 
+     * @return a Response with a header to notify consumer how long the audio file is
+     */
     @HEAD
     @Produces("audio/mp3")
     public Response header() {
         return Response.ok().status(206).header(HttpHeaders.CONTENT_LENGTH, audio.length()).build();
     }
-
+    
+    /**
+     * rest service returning a Response object which initializes a stream of the audio file
+     * 
+     * @param range the length of the audio file
+     * @return a stream of the audio file
+     * @throws Exception
+     */
     @GET
     @Produces("audio/mp3")
     public Response streamAudio(@HeaderParam("Range") String range) throws Exception {

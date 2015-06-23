@@ -20,6 +20,14 @@ public class ResearchController {
 			return null;
 		}
 	}
+	
+	public List<Research> getAllResearches() {
+		try {
+			return dao.readAll();
+		} catch(HibernateException e) {
+			return null;
+		}
+	}
 
 	public Research getResearch(int id) {
 		try {

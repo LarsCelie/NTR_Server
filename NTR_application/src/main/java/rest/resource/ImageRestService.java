@@ -12,9 +12,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
+/**
+ * Class used for sending images to the App.
+ * 
+ * @author Milamber
+ *
+ */
 @Path("/image")
 public class ImageRestService {
 	
+	/**
+	 * Send an image encoded with Base64 to the consumer.
+	 * 
+	 * @param id the file name of the image to be send
+	 * @return a Response object containing the Base64 encoding of a image
+	 */
 	@GET
 	@Path("/{id}")
 	public Response getImage(@PathParam("id") String id) {
