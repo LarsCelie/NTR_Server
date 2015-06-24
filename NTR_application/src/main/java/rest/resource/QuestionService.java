@@ -20,14 +20,14 @@ import main.java.domain.Question;
  * @author Milamber
  *
  */
-@Path("/Question")
+@Path("/question")
 public class QuestionService {
 	private QuestionController controller = new QuestionController();
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{surveyId}")
-	public Response getQuestionsBySurvey(@PathParam("surveyId")int id) {
+	@Path("/{questionId}")
+	public Response getQuestionsBySurvey(@PathParam("questionId")int id) {
 		List<Question> questions = controller.getQuestionsBySurvey(id);
 		if(questions != null) {
 			String json = new Gson().toJson(questions);

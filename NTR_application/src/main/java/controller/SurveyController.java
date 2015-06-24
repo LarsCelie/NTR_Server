@@ -1,7 +1,5 @@
 package main.java.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +23,12 @@ import main.java.util.Utility;
 
 import org.glassfish.jersey.media.multipart.BodyPart;
 import org.glassfish.jersey.media.multipart.MultiPart;
-
+/**
+ * Converts the raw data receiver from the corresponding DAO class to the format that is required by the rest service
+ * 
+ * @author Milamber
+ *
+ */
 public class SurveyController {
 	public List<Survey> getAvailableSurveysByResearch(int id) {
 		return new SurveyDao().getAvailableSurveysByResearch(id);
@@ -38,7 +41,13 @@ public class SurveyController {
 	public List<Survey> getSurveys() {
 		return new SurveyDao().readAll();
 	}
-
+	
+	/**
+	 * Creates a survey, question for this survey and options/attachments for those questions
+	 * 
+	 * @param multiPart a Multipart object containing the survey, its questions and the attachment/options of those questions
+	 * @return a boolean that is true if the survey was successfully added to the database.
+	 */
 	public boolean postSurvey(final MultiPart multiPart) {
 		/*
 		 * 0: researchid 1: name 2: begin date 3: end date
@@ -134,9 +143,9 @@ public class SurveyController {
 			}
 		}
 		//save the questions
-		QuestionDao qd = new QuestionDao();
+		QuestionDao qDao = new QuestionDao();
 		for (Question quest : questions) {
-			qd.create(quest);
+			qDao.create(quest);
 		}
 		
 		OptionDao oDao = new OptionDao();
@@ -151,6 +160,13 @@ public class SurveyController {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param inputStream
+	 * @param type
+	 * @param fileName
+	 * @return
+	 */
 	private boolean saveAsFile(InputStream inputStream, String type, String fileName) {
 		try {
 			OutputStream outStream = new FileOutputStream("C:/NTR/UPLOAD/"+type.toUpperCase() + "/" + fileName); //Save the file

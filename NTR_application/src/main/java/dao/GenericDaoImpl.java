@@ -14,7 +14,7 @@ import org.hibernate.cfg.Configuration;
 /**
  *  
  * offers the basic implementation of most basic DAO functions. 
- * later classes can extend this one and where needed add more functionality or override the standard
+ * later classes can extend this one and where needed add more functionality or override the standard.
  * extending classes are needed for every type the user wishes to write to the database because an implementation of the variable T is required
  * 
  * @author Milamber

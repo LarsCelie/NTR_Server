@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.dao.AnswerDao;
-import main.java.dao.QuestionDao;
 import main.java.dao.SurveyDao;
 import main.java.domain.Answer;
 import main.java.domain.Question;
@@ -18,7 +17,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+/**
+ * Converts the raw data receiver from the corresponding DAO class to the format that is required by the rest service
+ * 
+ * @author Milamber
+ *
+ */
 public class AnswerController {	
+	/**
+	 * Converts the JsonArray with question objects back to a List of questions and posts these to the database
+	 * 
+	 * @param json an Array of answers in Json format
+	 */
 	public void postAnswers(JsonObject json) {
 		System.out.println(json.toString());
 		ArrayList<Answer> answers = new ArrayList<Answer>();
@@ -37,22 +47,32 @@ public class AnswerController {
 			dao.create(a);
 		}
 	}
+	/**
+	 * Creates a readable CSV file for all the answers to a survey
+	 * 
+	 * @param surveyId the id of the survey for which the consumer wants the results
+	 * @return a CSV file containing the answers of requested survey
+	 */
 	public File getCSV(int surveyId) {
 		final String FILE_PATH = "c:/NTR/CSV/";
 		final String COMMA_DELIMITER = ";";
-		final String NEW_LINE_SEPARATOR = "\n";		
+		final String NEW_LINE_SEPARATOR = "\n";	
+		//List of question id's that the selected survey has, needed to create the columns of CSV
 		List<Integer> questionIds = new SurveyDao().getQuestionIds(surveyId);
 		List<Object[]> rows = new AnswerDao().getCSV(questionIds);		
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(FILE_PATH+surveyId+"_answers.csv");
+			//creates the first line with column titles
 			String FILE_HEADER = "userId";			
 			for(int i : questionIds) {
 				FILE_HEADER += COMMA_DELIMITER+i;
 			}
 			fileWriter.append(FILE_HEADER+NEW_LINE_SEPARATOR);
+			//Iterates over the rows for the CSV
 			for(Object[] row : rows) {
 				String rowString = "";
+				//Iterates over the items of each row and writes them to the CSV
 				for(Object item : row) {
 					rowString += item+COMMA_DELIMITER;
 				}

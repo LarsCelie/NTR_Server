@@ -9,7 +9,12 @@ import com.google.gson.JsonObject;
 
 import main.java.dao.ResearchDao;
 import main.java.domain.Research;
-
+/**
+ * Converts the raw data receiver from the corresponding DAO class to the format that is required by the rest service
+ * 
+ * @author Milamber
+ *
+ */
 public class ResearchController {
 	private ResearchDao dao = new ResearchDao();
 	
