@@ -21,8 +21,11 @@ public class MediaService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response postMedia(@FormDataParam("file") InputStream file,
 		@FormDataParam("file") FormDataContentDisposition fileDisposition) {
-		controller.postMedia(file,fileDisposition);
-		return Response.status(500).entity("something went wrong").build();
-	}
-	
+		boolean succes = controller.postMedia(file,fileDisposition);
+		if(succes) {
+			return Response.status(500).entity("succes").build();
+		} else {
+			return Response.status(500).entity("something went wrong").build();
+		}		
+	}	
 }

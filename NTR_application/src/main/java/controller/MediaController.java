@@ -9,9 +9,9 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 public class MediaController {
 
-	public void postMedia(InputStream file,
+	public boolean postMedia(InputStream file,
 			FormDataContentDisposition fileDisposition) {
-		saveAsFile(file,fileDisposition.getType(),fileDisposition.getFileName());
+		return saveAsFile(file,fileDisposition.getType(),fileDisposition.getFileName());
 		
 	}
 	private boolean saveAsFile(InputStream inputStream, String type, String fileName) {
