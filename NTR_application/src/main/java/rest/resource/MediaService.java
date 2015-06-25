@@ -23,7 +23,7 @@ public class MediaService {
 		@FormDataParam("file") FormDataContentDisposition fileDisposition) {
 		boolean succes = controller.postMedia(file,fileDisposition);
 		if(succes) {
-			return Response.status(500).entity("succes").build();
+			return Response.status(200).entity("succes").build();
 		} else {
 			return Response.status(500).entity("something went wrong").build();
 		}		
