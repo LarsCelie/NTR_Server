@@ -1,4 +1,4 @@
-package main.java.services;
+package main.java.rest.resource;
 
 import java.io.InputStream;
 
@@ -21,8 +21,8 @@ public class MediaService {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response postMedia(@FormDataParam("file") InputStream file,
 		@FormDataParam("file") FormDataContentDisposition fileDisposition) {
-		
-	   return Response.status(500).entity("something went wrong").build();
+		controller.postMedia(file,fileDisposition);
+		return Response.status(500).entity("something went wrong").build();
 	}
 	
 }
