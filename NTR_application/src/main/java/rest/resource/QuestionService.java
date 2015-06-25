@@ -31,7 +31,7 @@ public class QuestionService {
 		List<Question> questions = controller.getQuestionsBySurvey(id);
 		if(questions != null) {
 			String json = new Gson().toJson(questions);
-			return Response.ok(json).build();
+			return Response.status(200).entity(json).build();
 		} else {
 			return Response.status(500).entity("something went wrong").build();
 		}
